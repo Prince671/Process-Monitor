@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Process Monitor</title>
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="{% static 'monitoring/css/style.css' %}" />
+  </head>
+  <body>
+    <header class="header">
+      <h1 class="title">🖥️ Process Monitor</h1>
+      <div class="meta">
+        <span id="last-updated" class="badge" title="Last refreshed time"
+          >—</span
+        >
+      </div>
+    </header>
+
+    <section class="controls">
+      <div class="control-row">
+        <div class="field">
+          <label for="hostname" class="label">Hostname</label>
+          <div class="input-row">
+            <input
+              id="hostname"
+              class="input"
+              type="text"
+              placeholder="e.g. DESKTOP-1234"
+            />
+            <button
+              id="btn-detect-host"
+              class="btn btn-secondary"
+              title="Fill with this machine's hostname (as seen by agent)"
+            >
+              Detect
+            </button>
+          </div>
+          <small class="hint"
+            >Tip: Use the same hostname your agent sends
+            (socket.gethostname()).</small
+          >
+        </div>
+
+        <div class="field">
+          <label for="search" class="label">Search</label>
+          <input
+            id="search"
+            class="input"
+            type="text"
+            placeholder="Filter by name or PID…"
+          />
+          <small class="hint">Example: <em>chrome</em> or <em>3220</em></small>
+        </div>
+      </div>
+
+      <div class="control-row">
+        <div class="seg">
+          <button id="btn-refresh" class="btn" title="Fetch latest data">
+            Refresh
+          </button>
+          <div class="auto-refresh">
+            <label class="switch">
+              <input type="checkbox" id="auto-toggle" />
+              <span class="slider"></span>
+            </label>
+            <span class="switch-label">Auto-refresh</span>
+
+            <select id="interval" class="select" title="Auto-refresh interval">
+              <option value="5">5s</option>
+              <option value="10" selected>10s</option>
+              <option value="15">15s</option>
+              <option value="30">30s</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="seg right">
+          <button
+            id="btn-clear"
+            class="btn btn-danger"
+            title="DELETE all process rows from DB"
+          >
+            Clear Data
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <main class="card">
+      <div id="status" class="status">
+        <span class="dot dot-muted"></span>
+        <span id="status-text">Waiting…</span>
+      </div>
+
+      <div id="process-container" class="tree">
+        <div class="empty">
+          <div class="spinner"></div>
+          <p>Loading processes…</p>
+        </div>
+      </div>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <footer class="footer">
+      <span>SQLite • Django REST • Vanilla JS</span>
+    </footer>
+
+    <script>
+      window.__PM_CONFIG__ = {
+        GET_URL: "/api/processes/",
+        POST_URL: "/api/process/",
+        CLEAR_URL: "/api/process/clear/",
+      };
+    </script>
+    <script src="{% static 'monitoring/js/processes.js' %}"></script>
+  </body>
+</html>
