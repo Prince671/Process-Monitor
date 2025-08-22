@@ -50,7 +50,7 @@ process_monitor/              # Django project root
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/django-process-monitor.git
+git clone https://github.com/Prince671/django-process-monitor.git
 cd django-process-monitor
 ```
 
